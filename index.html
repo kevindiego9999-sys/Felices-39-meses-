@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -260,7 +261,7 @@ body{
   margin:40px auto;
 }
 .timeline::after{
-  content:'';
+  content:''; 
   position:absolute;
   width:4px;
   background:#ec407a;
@@ -289,6 +290,26 @@ body{
   width:100%;
   border-radius:20px;
 }
+
+/* ===== FECHA CUADROS ===== */
+.fecha-cuadros{
+  display:flex;
+  justify-content:center;
+  gap:5px;
+  margin:10px 0;
+}
+.fecha-cuadros input{
+  width:40px;
+  text-align:center;
+  font-size:16px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+.fecha-cuadros span{
+  font-size:18px;
+  line-height:40px;
+}
 </style>
 </head>
 
@@ -296,9 +317,18 @@ body{
 
 <div id="formulario">
   <h2>💖 Bienvenida 💖</h2>
-  <input id="nombreElla" placeholder="Nombre">
+  <input id="nombreElla" placeholder="Nombre de ella">
   <input id="lugar" placeholder="Dónde nos conocimos">
-  <input id="fecha" placeholder="Cuándo nos conocimos">
+  
+  <div class="fecha-cuadros">
+    <input id="diaInput" maxlength="2" placeholder="DD">
+    <span>🔒</span>
+    <input id="mesInput" maxlength="2" placeholder="MM">
+    <span>🔒</span>
+    <input id="anioInput" maxlength="2" placeholder="AA">
+    <span>🔒</span>
+  </div>
+  
   <input id="regalo" placeholder="Lo más bonito que yo te he dado ❤️">
   <button onclick="entrar()">Entrar</button>
 </div>
@@ -362,24 +392,52 @@ let datos={}, intervalos=[];
 let tiempoInicio = new Date("2022-10-18T00:00:00");
 let intervaloReloj;
 
+// Auto-focus entre los cuadros de fecha
+const inputs = [document.getElementById("diaInput"), document.getElementById("mesInput"), document.getElementById("anioInput")];
+inputs.forEach((input,i)=>{
+  input.addEventListener("input", ()=>{
+    if(input.value.length===2 && i<inputs.length-1){
+      inputs[i+1].focus();
+    }
+  });
+});
+
 function entrar(){
+  // Validaciones obligatorias
+  if(!document.getElementById("nombreElla").value.trim() ||
+     !document.getElementById("lugar").value.trim() ||
+     !document.getElementById("regalo").value.trim()){
+    alert("No seas tramposita 😜, llena todos los campos con letra");
+    return;
+  }
+
+  // Validación de fecha obligatoria
+  const dia = document.getElementById("diaInput").value;
+  const mes = document.getElementById("mesInput").value;
+  const anio = document.getElementById("anioInput").value;
+  if(dia!=="18" || mes!=="10" || anio!=="22"){
+    alert("Apoco no te acuerdas 😏, escribe la fecha correcta");
+    return;
+  }
+
   datos={
-    nombre:nombreElla.value,
-    lugar:lugar.value,
-    fecha:fecha.value,
-    regalo:regalo.value
+    nombre:document.getElementById("nombreElla").value,
+    lugar:document.getElementById("lugar").value,
+    fecha:`${dia}/${mes}/${anio}`,
+    regalo:document.getElementById("regalo").value
   };
-  formulario.style.display="none";
-  contenido.style.display="block";
+  document.getElementById("formulario").style.display="none";
+  document.getElementById("contenido").style.display="block";
 }
 
 function abrirCarta(){
   document.getElementById("musica").play();
-  sobre.classList.add("abierto");
+  document.getElementById("sobre").classList.add("abierto");
+  const carta = document.getElementById("carta");
   carta.style.display="block";
   carta.classList.add("visible");
-  btnCarta.style.display="none";
-  textoCarta.innerHTML="";
+  document.getElementById("btnCarta").style.display="none";
+  document.getElementById("textoCarta").innerHTML="";
   intervalos.push(setInterval(crearCorazon,300));
   intervalos.push(setInterval(crearPalabra,1200));
 
@@ -399,7 +457,7 @@ Te amo con todo mi corazón ❤️`;
   let i=0;
   (function escribir(){
     if(i<texto.length){
-      textoCarta.innerHTML+=texto.charAt(i++);
+      document.getElementById("textoCarta").innerHTML+=texto.charAt(i++);
       setTimeout(escribir,30);
     } else {
       iniciarReloj();
@@ -422,10 +480,11 @@ function iniciarReloj(){
 }
 
 function cerrarCarta(){
+  const carta = document.getElementById("carta");
   carta.classList.remove("visible");
   carta.style.display="none";
-  sobre.classList.remove("abierto");
-  btnCarta.style.display="block";
+  document.getElementById("sobre").classList.remove("abierto");
+  document.getElementById("btnCarta").style.display="block";
   intervalos.forEach(i=>clearInterval(i));
   intervalos=[];
   document.querySelectorAll(".flotante").forEach(e=>e.remove());
@@ -459,16 +518,16 @@ function crearPalabra(){
 }
 
 function abrirImg(src){
-  visor.style.display="flex";
-  imgGrande.src=src;
+  document.getElementById("visor").style.display="flex";
+  document.getElementById("imgGrande").src=src;
 }
 
 function cerrarImg(){
-  visor.style.display="none";
+  document.getElementById("visor").style.display="none";
 }
 
 function evento(n){
-  fotoLinea.style.display="block";
+  document.getElementById("fotoLinea").style.display="block";
   const fotos = [
     "fotos/foto 34.jpeg",
     "fotos/foto 36.jpeg",
@@ -476,10 +535,11 @@ function evento(n){
     "fotos/foto12.jpeg",
     "fotos/foto1.jpeg"
   ];
-  imgLinea.src = fotos[n-1];
+  document.getElementById("imgLinea").src = fotos[n-1];
 }
 </script>
 
 </body>
 </html>
+
 
