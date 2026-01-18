@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Amor 💖</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
+body{
+  margin:0;
+  text-align:center;
+  color:#d81b60;
+  background:linear-gradient(270deg,#ffe3ec,#fff0f4,#ffd1dc);
+  background-size:600% 600%;
+  animation:fondo 12s ease infinite;
+  overflow-x:hidden;
+}
+
+@keyframes fondo{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ===== FORMULARIO ===== */
+#formulario{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+#formulario input{
+  width:90%;
+  max-width:360px;
+  padding:14px;
+  margin:8px;
+  border-radius:18px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+#formulario button{
+  margin-top:14px;
+  padding:16px 40px;
+  border:none;
+  border-radius:35px;
+  background:#ec407a;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  animation:latir 1.4s infinite;
+}
+
+@keyframes latir{
+  50%{transform:scale(1.1)}
+}
+
+/* ===== SOBRE ANIMADO ===== */
+#sobre{
+  width:200px;
+  height:130px;
+  margin:30px auto 10px;
+  background:#ec407a;
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  transition:1s;
+}
+#sobre::before{
+  content:''; 
+  position:absolute;
+  width:0;
+  height:0;
+  border-left:100px solid transparent;
+  border-right:100px solid transparent;
+  border-top:65px solid #f06292;
+  top:0;
+  left:0;
+  transition:1s;
+}
+#sobre.abierto::before{
+  transform:rotateX(180deg);
+  transform-origin:top;
+}
+
+/* ===== CARTA ===== */
+.carta{
+  display:none;
+  width:92%;
+  max-width:560px;
+  margin:20px auto;
+  padding:26px;
+  background:white;
+  border-radius:25px;
+  box-shadow:0 20px 45px rgba(0,0,0,.3);
+  position:relative;
+  transform: scale(0.5) translateY(-50px);
+  opacity:0;
+  transition: all 0.7s cubic-bezier(0.68,-0.55,0.27,1.55);
+}
+.carta.visible{
+  transform: scale(1) translateY(0);
+  opacity:1;
+}
+.carta::after{
+  content:"❤️";
+  position:absolute;
+  font-size:100px;
+  color:rgba(255,64,129,0.15);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+.carta p{
+  color:#444;
+  text-align:justify;
+  line-height:1.8;
+  font-size:17px;
+  position:relative;
+  z-index:1;
+}
+
+.firma{
+  margin-top:45px;
+  text-align:right;
+  font-weight:bold;
+  color:#d81b60;
+  position:relative;
+  z-index:1;
+}
+
+.carta button{
+  margin-top:20px;
+  padding:12px 30px;
+  border:none;
+  border-radius:25px;
+  background:#ec407a;
+  color:white;
+  font-size:16px;
+  position:relative;
+  z-index:1;
+}
+
+/* ===== RELOJ ===== */
+#reloj{
+  margin-top:25px;
+  font-size:16px;
+  color:#d81b60;
+  font-weight:bold;
+}
+
+/* ===== BOTÓN CARTA ===== */
+#btnCarta{
+  margin:20px auto;
+  padding:16px 40px;
+  border:none;
+  border-radius:35px;
+  background:#ec407a;
+  color:white;
+  font-size:20px;
+  animation:latir 1.4s infinite;
+}
+
+/* ===== FLOTANTES ===== */
+.flotante{
+  position:fixed;
+  bottom:-30px;
+  animation:flotar 7s linear forwards;
+  z-index:1;
+  pointer-events:none;
+}
+.corazon{color:#ff4081}
+.palabra{
+  font-size:22px;
+  font-weight:bold;
+  color:#ec407a;
+}
+
+@keyframes flotar{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+/* ===== GALERÍA ===== */
+.galeria{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:20px;
+}
+.galeria img{
+  width:100%;
+  height:200px;
+  border-radius:14px;
+  cursor:pointer;
+  object-fit:cover;
+}
+
+@media (min-width:900px){
+  .galeria{
+    grid-template-columns:repeat(5,1fr);
+    max-width:1200px;
+    margin:auto;
+  }
+  .galeria img{
+    height:220px;
+    object-fit:cover;
+  }
+}
+
+@media (max-width:899px){
+  .galeria img:nth-child(10){
+    display:none;
+  }
+}
+
+/* ===== MODAL CORAZÓN ===== */
+#visor{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+#visor img{
+  width:300px;
+  height:300px;
+  object-fit:cover;
+  clip-path:path("M150 275 L20 150 A80 80 0 0 1 150 60 A80 80 0 0 1 280 150 Z");
+  animation:latir 1.5s infinite;
+}
+
+#cerrarImg{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:#ec407a;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:30px;
+  font-size:18px;
+}
+
+/* ===== LÍNEA DEL TIEMPO ===== */
+.timeline{
+  position:relative;
+  max-width:700px;
+  margin:40px auto;
+}
+.timeline::after{
+  content:'';
+  position:absolute;
+  width:4px;
+  background:#ec407a;
+  top:0;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+}
+.item{
+  width:45%;
+  padding:16px;
+  background:#ffe3ec;
+  border-radius:20px;
+  margin:18px 0;
+  cursor:pointer;
+}
+.left{margin-left:0}
+.right{margin-left:55%}
+
+#fotoLinea{
+  display:none;
+  max-width:360px;
+  margin:25px auto;
+}
+#fotoLinea img{
+  width:100%;
+  border-radius:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="formulario">
+  <h2>💖 Bienvenida 💖</h2>
+  <input id="nombreElla" placeholder="Nombre de ella">
+  <input id="lugar" placeholder="Dónde nos conocimos">
+  <input id="fecha" placeholder="Cuándo nos conocimos">
+  <input id="regalo" placeholder="Lo más bonito que yo te he dado ❤️">
+  <button onclick="entrar()">Entrar</button>
+</div>
+
+<div id="contenido" style="display:none">
+
+<h1>Nuestro Amor 💕</h1>
+
+<div id="sobre"></div>
+
+<div class="carta" id="carta">
+  <p id="textoCarta"></p>
+  <div id="reloj"></div>
+  <div class="firma">Con amor,<br>Kevin ❤️</div>
+  <button onclick="cerrarCarta()">Cerrar carta 💔</button>
+</div>
+
+<button id="btnCarta" onclick="abrirCarta()">Abrir carta 💌</button>
+
+<!-- GALERÍA -->
+<div class="galeria">
+  <img src="foto5.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto26.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto21.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto17.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto16.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto15.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto14.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto30.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto27.jpeg" onclick="abrirImg(this.src)">
+  <img src="foto31.jpeg" onclick="abrirImg(this.src)">
+</div>
+
+<h2>Nuestra Línea de Amor ❤️</h2>
+
+<div class="timeline">
+  <div class="item left" onclick="evento(1)">💑 Empezamos nuestro camino</div>
+  <div class="item right" onclick="evento(2)">🌸 Primer aniversario</div>
+  <div class="item left" onclick="evento(3)">✨ Grandes aventuras</div>
+  <div class="item right" onclick="evento(4)">🏡 Sueños juntos</div>
+  <div class="item left" onclick="evento(5)">❤️ Nuestro presente feliz</div>
+</div>
+
+<div id="fotoLinea">
+  <img id="imgLinea">
+</div>
+
+</div>
+
+<div id="visor" onclick="cerrarImg()">
+  <button id="cerrarImg">❌</button>
+  <img id="imgGrande">
+</div>
+
+<audio id="musica" src="SpotiDownloader.com - Photograph - Ed Sheeran.mp3" preload="auto"></audio>
+
+<script>
+let datos={}, intervalos=[];
+
+// Fijamos la fecha de inicio para el reloj
+let tiempoInicio = new Date("2022-10-18T00:00:00");
+let intervaloReloj;
+
+function entrar(){
+  datos={
+    nombre:nombreElla.value,
+    lugar:lugar.value,
+    fecha:fecha.value,
+    regalo:regalo.value
+  };
+  formulario.style.display="none";
+  contenido.style.display="block";
+}
+
+function abrirCarta(){
+  document.getElementById("musica").play();
+  sobre.classList.add("abierto");
+  carta.style.display="block";
+  carta.classList.add("visible");
+  btnCarta.style.display="none";
+  textoCarta.innerHTML="";
+  intervalos.push(setInterval(crearCorazon,300));
+  intervalos.push(setInterval(crearPalabra,1200));
+
+  const texto=`Mi amor ${datos.nombre}:
+
+Desde el ${datos.fecha} mi vida cambió.
+Desde que nos conocimos en ${datos.lugar}, cada momento a tu lado ha sido mágico.
+Tu sonrisa ilumina mis días, tu mirada me enamora más cada día,
+y tu corazón es el refugio más cálido que he conocido.
+Eres hermosa, tierna y dulce, y cada día que pasa me siento más afortunado de tenerte a mi lado.
+Gracias por cada abrazo, cada risa y cada palabra que compartimos.
+Lo más bonito que yo te he dado es ${datos.regalo},
+pero lo más precioso es lo que seguimos construyendo juntos.
+Me haces soñar, reír, y creer que el amor verdadero existe.
+Te amo con todo mi corazón ❤️`;
+
+  let i=0;
+  (function escribir(){
+    if(i<texto.length){
+      textoCarta.innerHTML+=texto.charAt(i++);
+      setTimeout(escribir,30);
+    } else {
+      iniciarReloj();
+    }
+  })();
+}
+
+function iniciarReloj(){
+  const reloj = document.getElementById("reloj");
+  clearInterval(intervaloReloj);
+  intervaloReloj = setInterval(()=>{
+    const ahora = new Date();
+    let diff = Math.floor((ahora - tiempoInicio)/1000);
+    let dias = Math.floor(diff/86400); diff %= 86400;
+    let horas = Math.floor(diff/3600); diff %= 3600;
+    let minutos = Math.floor(diff/60);
+    let segundos = diff % 60;
+    reloj.innerHTML = `❤️ Tiempo juntos: ${dias}d ${horas}h ${minutos}m ${segundos}s ❤️`;
+  },1000);
+}
+
+function cerrarCarta(){
+  carta.classList.remove("visible");
+  carta.style.display="none";
+  sobre.classList.remove("abierto");
+  btnCarta.style.display="block";
+  intervalos.forEach(i=>clearInterval(i));
+  intervalos=[];
+  document.querySelectorAll(".flotante").forEach(e=>e.remove());
+  document.getElementById("musica").pause();
+  document.getElementById("musica").currentTime = 0;
+}
+
+function crearCorazon(){
+  const c=document.createElement("div");
+  c.className="flotante corazon";
+  c.innerHTML="❤️";
+  c.style.left=Math.random()*90+"vw";
+  c.style.fontSize=(20+Math.random()*25)+"px";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),7000);
+}
+
+function crearPalabra(){
+  const frases=[
+    "Felices 29 meses 💖",
+    "Eres la mejor novia 💕",
+    "Te amo mucho ❤️",
+    "Gracias por todo 🌸"
+  ];
+  const p=document.createElement("div");
+  p.className="flotante palabra";
+  p.innerHTML=frases[Math.floor(Math.random()*frases.length)];
+  p.style.left=Math.random()*60+"vw";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),7000);
+}
+
+function abrirImg(src){
+  visor.style.display="flex";
+  imgGrande.src=src;
+}
+
+function cerrarImg(){
+  visor.style.display="none";
+}
+
+function evento(n){
+  fotoLinea.style.display="block";
+  const fotos = [
+    "fotos/foto 34.jpeg",
+    "fotos/foto 36.jpeg",
+    "fotos/foto17.jpeg",
+    "fotos/foto12.jpeg",
+    "fotos/foto1.jpeg"
+  ];
+  imgLinea.src = fotos[n-1];
+}
+</script>
+
+</body>
+</html>
